@@ -1,0 +1,201 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    
+    
+    
+    <xacro:macro name="default_inertial" params="mass">
+        <inertial>
+            <mass value="${mass}"/>
+
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+
+            <inertia
+                ixx="${mass*0.001}"
+                ixy="0"
+                ixz="0"
+                iyy="${mass*0.001}"
+                iyz="0"
+                izz="${mass*0.001}"/>
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="leg_assembly" params="prefix y_offset">
+        
+        <link name="leg_${prefix}">
+            <xacro:default_inertial mass="${leg_mass}"/>
+            <visual>
+                <geometry>
+                    <box size="${leg_length} ${leg_width} ${leg_height}"/>
+                </geometry>
+                <material name="white" />
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="${leg_length} ${leg_width} ${leg_height}"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint name="leg_joint_${prefix}" type="fixed">
+            <parent link="base_link" />
+            <child link="leg_${prefix}" />
+            <origin rpy="0 ${PI/2} 0" xyz="0 ${y_offset} -0.1"/>
+        </joint>
+
+        <link name="pad_${prefix}">
+            <xacro:default_inertial mass="${pad_mass}"/>
+            <visual>
+                <geometry>
+                    <box size="${pad_length} ${pad_width} ${pad_height}"/>
+                </geometry>
+                <material name="blue" />
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="${pad_length} ${pad_width} ${pad_height}"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint name="pad_joint_${prefix}" type="fixed">
+            <parent link="leg_${prefix}" />
+            <child link="pad_${prefix}" />
+            <origin rpy="0 ${-PI/2} 0" xyz="0.35 0 0"/>
+        </joint>
+        
+    </xacro:macro>
+
+    <xacro:macro name="wheel" params="name parent_link x_offset add_inner_wheel:=true">
+        
+        <link name="${name}">
+            <xacro:default_inertial mass="${wheel_mass}"/>
+            <visual>
+                <geometry>
+                    <cylinder radius="${wheel_radius}" length="${wheel_length}"  />
+                </geometry>
+                <material name="black_2" />
+            </visual>
+            <collision>
+                <geometry>
+                    <cylinder radius="${wheel_radius}" length="${wheel_length}"  />
+                </geometry>
+            </collision>
+        </link>
+        <joint name="${name}_joint" type="continuous">
+            <parent link="${parent_link}" />
+            <child link="${name}" />
+            <origin rpy="${PI/2} 0 0" xyz="${x_offset} 0 -0.1"/>
+            <axis xyz="0 0 -1"/>
+        </joint>
+
+        <xacro:if value="${add_inner_wheel}">
+            <link name="i${name}">
+                <xacro:default_inertial mass="${iwheel_mass}"/>
+                <visual>
+                    <geometry>
+                        <cylinder radius="${wheel_radius/2}" length="${wheel_length}" />
+                    </geometry>
+                    <material name="yellow" />
+                </visual>
+                <collision>
+                    <geometry>
+                        <cylinder radius="${wheel_radius/2}" length="${wheel_length}" />
+                    </geometry>
+                </collision>
+            </link>
+            <joint name="i${name}_joint" type="fixed">
+                <parent link="${name}" />
+                <child link="i${name}" />
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+            </joint>
+        </xacro:if>
+
+    </xacro:macro>
+
+
+
+    <xacro:macro name="head_assembly">
+
+        <link name="head">
+            <xacro:default_inertial mass="${head_mass}"/>
+            <visual>
+                <geometry>
+                    <sphere radius="${head_radius}"/>
+                </geometry>
+                <material name="white" />
+            </visual>
+            <collision>
+                <geometry>
+                    <sphere radius="${head_radius}"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint name="head_joint1" type="continuous">
+            <parent link="base_link" />
+            <child link="head" />
+            <origin rpy="0 0 0" xyz="0 0 0.3"/>
+            <axis xyz="0 0 1"/>
+        </joint>
+
+        <link name="eye_socket">
+            <xacro:default_inertial mass="${eye_socket_mass}"/>
+            <visual>
+                <geometry>
+                    <box size="${head_radius/2} ${head_radius/2} ${head_radius/2}"/>
+                </geometry>
+                <material name="blue" />
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="${head_radius/2} ${head_radius/2} ${head_radius/2}"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint name="eye_joint" type="fixed">
+            <parent link="head"/>
+            <child link="eye_socket"/>
+            <origin rpy="0 0 0" xyz="0.1414 0 0.1414"/>
+        </joint>
+
+        <link name="eyeball">
+            <xacro:default_inertial mass="${eyeball_mass}"/>
+            <visual>
+                <geometry>
+                    <sphere radius="${head_radius/4}" />
+                </geometry>
+                <material name="white" />
+            </visual>
+            <collision>
+                <geometry>
+                    <sphere radius="${head_radius/4}" />
+                </geometry>
+            </collision>
+        </link>
+        <joint name="ieye_joint" type="revolute">
+            <parent link="eye_socket"/>
+            <child link="eyeball"/>
+            <origin rpy="0 0 0" xyz="0.05 0 0"/>
+            <axis xyz="0 1 0"/>
+            <limit lower="${-PI/2}" upper="${PI/2}" effort="100.0" velocity="3.14"/>
+        </joint>
+
+        <link name="pupil">
+            <xacro:default_inertial mass="${pupil_mass}"/>
+            <visual>
+                <geometry>
+                    <sphere radius="${head_radius/8}" />
+                </geometry>
+                <material name="black" />
+            </visual>
+            <collision>
+                <geometry>
+                    <sphere radius="${head_radius/8}" />
+                </geometry>
+            </collision>
+        </link>
+        <joint name="pupil_joint" type="fixed">
+            <parent link="eyeball"/>
+            <child link="pupil"/>
+            <origin rpy="0 0 0" xyz="0.03 0 0"/>
+        </joint>
+    </xacro:macro>
+
+</robot>

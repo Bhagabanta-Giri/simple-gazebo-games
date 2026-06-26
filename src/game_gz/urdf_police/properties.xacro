@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">    
+    
+    <xacro:property name="PI" value="3.14159265359"/>
+    <xacro:property name="elimit" value="100.0"/>
+    <xacro:property name="vlimit" value="3.14"/>
+    
+    <xacro:property name="leg_length" value="0.6"/>
+    <xacro:property name="leg_width" value="0.1"/>
+    <xacro:property name="leg_height" value="0.2"/>
+
+    <xacro:property name="pad_length" value="0.4"/>
+    <xacro:property name="pad_width" value="0.15"/>
+    <xacro:property name="pad_height" value="0.1"/>
+
+    <xacro:property name="wheel_radius" value="0.05"/>
+    <xacro:property name="wheel_length" value="0.1"/>
+
+    <xacro:property name="head_radius" value="0.2"/>
+
+    <xacro:property name="base_mass" value="3.0"/>
+    <xacro:property name="leg_mass" value="3.0"/>
+    <xacro:property name="pad_mass" value="5.0"/>
+    <xacro:property name="wheel_mass" value="3.0"/>
+    <xacro:property name="iwheel_mass" value="2.0"/>
+    <xacro:property name="head_mass" value="1.0"/>
+    <xacro:property name="eye_socket_mass" value="0.1"/>
+    <xacro:property name="eyeball_mass" value="0.05"/>
+    <xacro:property name="pupil_mass" value="0.01"/>
+
+</robot>

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="chitti_vtwo">
+    
+    <xacro:include filename="materials.xacro"/>
+    <xacro:include filename="properties.xacro"/>
+    <xacro:include filename="robot_macros.xacro"/>
+    <xacro:include filename="gazebo.xacro"/>
+    
+    <link name="base_link">
+        <xacro:default_inertial mass="${base_mass}"/>
+        <visual>
+            <geometry>
+                <cylinder radius="0.2" length="0.6" />
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.2" length="0.6" />
+            </geometry>
+        </collision>
+    </link>
+
+    <xacro:leg_assembly prefix="l" y_offset="-0.25"/>
+    <xacro:leg_assembly prefix="r" y_offset="0.25"/>
+
+    <xacro:wheel name="wheel1" parent_link="pad_l" x_offset="0.15"/>
+    <xacro:wheel name="wheel2" parent_link="pad_l" x_offset="-0.15"/>
+    
+    <xacro:wheel name="wheel3" parent_link="pad_r" x_offset="-0.15"/>
+    <xacro:wheel name="wheel4" parent_link="pad_r" x_offset="0.15"/>
+
+    <xacro:head_assembly />
+
+</robot>

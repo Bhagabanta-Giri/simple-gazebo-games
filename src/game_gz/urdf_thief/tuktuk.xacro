@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+
+<robot name="tuktuk" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="properties.xacro"/>
+    <xacro:include filename="materials.xacro"/>
+    <xacro:include filename="macros.xacro"/>
+    <xacro:include filename="gazebo.xacro"/>
+
+    <link name="chassis">
+        <xacro:box_inertial mass="${chassis_mass}"
+                            x="${chassis_l}"
+                            y="${chassis_w}"
+                            z="${chassis_h}"/>
+        <visual>
+            <geometry>
+                <box size="${chassis_l} ${chassis_w} ${chassis_h}"/>
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="${chassis_l} ${chassis_w} ${chassis_h}"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <xacro:main_assembly/>
+
+</robot>
+
+<!-- I used xacro to make this bot coz its easy to modify this way.
+    Most of the dimensions and origin of links are in properties.xacro.
+    macros.xacro has all the macros used in main_assembly macro itself.
+    materials.xacro has the colors(materials).
+    gazebo.xacro has the diff drive plugin used in task 4b.
+    
+    I used chassis instead of base_link.
+    The original tuktuk is in MiniTask.
+    More logic is inside macros.xacro
+    
+    KDL might throw a warning coz kdl does not support root link with inertia,
+    but i did not create a dummy link coz without inertial and collision, chassis will be invisible in gazebo-->

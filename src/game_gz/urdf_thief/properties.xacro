@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Misc -->
+    <xacro:property name="PI" value="3.14159265359"/>
+    <xacro:property name="elimit" value="100.0"/>
+    <xacro:property name="vlimit" value="3.14"/>
+
+    <!-- Chassis -->
+    <xacro:property name="chassis_l" value="1.0"/>
+    <xacro:property name="chassis_w" value="0.6"/>
+    <xacro:property name="chassis_h" value="0.06"/>
+
+    <xacro:property name="chassis_mass" value="0.8"/>
+
+    <!-- Wheels -->
+    <xacro:property name="wheel_r" value="0.1"/>
+    <xacro:property name="wheel_w" value="0.1"/>
+
+    <xacro:property name="wheel_mass" value="0.08"/>
+
+    <xacro:property name="iwheel_r" value="${wheel_r/2}"/>
+
+    <xacro:property name="iwheel_mass" value="0.03"/>
+
+    <!-- Motors -->
+    <xacro:property name="motor_l" value="0.1"/>
+    <xacro:property name="motor_w" value="0.15"/>
+    <xacro:property name="motor_h" value="0.1"/>
+
+    <xacro:property name="motor_x" value="-0.3"/>
+    <xacro:property name="motor_z" value="-0.08"/>
+
+    <xacro:property name="motor_mass" value="0.12"/>
+
+    <!-- Electronics -->
+    <xacro:property name="battery_l" value="0.2"/>
+    <xacro:property name="battery_w" value="0.4"/>
+    <xacro:property name="battery_h" value="0.1"/>
+
+    <xacro:property name="battery_x" value="-0.4"/>
+    <xacro:property name="battery_y" value="0"/>
+    <xacro:property name="battery_z" value="0.075"/>
+
+    <xacro:property name="battery_mass" value="0.35"/>
+
+    <xacro:property name="switch_r" value="0.025"/>
+    <xacro:property name="switch_w" value="0.02"/>
+
+    <xacro:property name="switch_x" value="-0.4"/>
+    <xacro:property name="switch_y" value="0.25"/>
+    <xacro:property name="switch_z" value="0.04"/>
+
+    <xacro:property name="switch_mass" value="0.005"/>
+
+    <xacro:property name="controller_side" value="0.3"/>
+    <xacro:property name="controller_h" value="0.05"/>
+
+    <xacro:property name="controller_mass" value="0.04"/>
+    <xacro:property name="ir_mass" value="0.01"/>
+    <xacro:property name="ir_size" value="0.1"/>
+
+    <!-- Caster -->
+    <xacro:property name="caster_base_r" value="0.08"/>
+    <xacro:property name="caster_base_w" value="0.05"/>
+
+    <xacro:property name="caster_stud_r" value="0.025"/>
+    <xacro:property name="caster_stud_h" value="0.08"/>
+
+    <xacro:property name="caster_ball_r" value="0.025"/>
+
+    <xacro:property name="caster_base_mass" value="0.03"/>
+    <xacro:property name="caster_stud_mass" value="0.01"/>
+    <xacro:property name="caster_ball_mass" value="0.02"/>
+
+</robot>
