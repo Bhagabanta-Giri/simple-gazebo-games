@@ -25,19 +25,46 @@
         </collision>
     </link>
 
+    <link name="stand">
+        <xacro:zero_inertial/>
+        <visual>
+            <geometry>
+                <cylinder radius="0.01" length='0.5'/>
+            </geometry>
+            <material name="white" />
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.01" length='0.5'/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="stand_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="stand"/>
+        <origin rpy="0 0 0" xyz="0 0 0.28"/>
+    </joint>
+
+    <link name="thief_camera">
+        <xacro:zero_inertial/>
+        <visual>
+            <geometry>
+                <sphere radius="0.05" />
+            </geometry>
+            <material name="blue" />
+        </visual>
+        <collision>
+            <geometry>
+                <sphere radius="0.06" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="cam_joint" type="fixed">
+        <parent link="stand"/>
+        <child link="thief_camera"/>
+        <origin rpy="0 0 0" xyz="0 0 0.25"/>
+    </joint>
+
     <xacro:main_assembly/>
 
 </robot>
-
-<!-- I used xacro to make this bot coz its easy to modify this way.
-    Most of the dimensions and origin of links are in properties.xacro.
-    macros.xacro has all the macros used in main_assembly macro itself.
-    materials.xacro has the colors(materials).
-    gazebo.xacro has the diff drive plugin used in task 4b.
-    
-    I used chassis instead of base_link.
-    The original tuktuk is in MiniTask.
-    More logic is inside macros.xacro
-    
-    KDL might throw a warning coz kdl does not support root link with inertia,
-    but i did not create a dummy link coz without inertial and collision, chassis will be invisible in gazebo-->

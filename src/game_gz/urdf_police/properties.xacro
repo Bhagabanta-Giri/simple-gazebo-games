@@ -18,12 +18,12 @@
 
     <xacro:property name="head_radius" value="0.2"/>
 
-    <xacro:property name="base_mass" value="3.0"/>
-    <xacro:property name="leg_mass" value="3.0"/>
+    <xacro:property name="base_mass" value="1.0"/>
+    <xacro:property name="leg_mass" value="1.0"/>
     <xacro:property name="pad_mass" value="5.0"/>
     <xacro:property name="wheel_mass" value="3.0"/>
     <xacro:property name="iwheel_mass" value="2.0"/>
-    <xacro:property name="head_mass" value="1.0"/>
+    <xacro:property name="head_mass" value="0.5"/>
     <xacro:property name="eye_socket_mass" value="0.1"/>
     <xacro:property name="eyeball_mass" value="0.05"/>
     <xacro:property name="pupil_mass" value="0.01"/>

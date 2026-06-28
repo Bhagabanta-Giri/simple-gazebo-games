@@ -21,6 +21,26 @@
         </collision>
     </link>
 
+    <link name="pols_camera">
+        <xacro:default_inertial mass="${eyeball_mass}"/>
+        <visual>
+            <geometry>
+                <sphere radius="${head_radius/4}" />
+            </geometry>
+            <material name="white" />
+        </visual>
+        <collision>
+            <geometry>
+                <sphere radius="${head_radius/4}" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="ceye_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="pols_camera"/>
+        <origin rpy="0 0 0" xyz="0.2 0 0"/>
+    </joint>
+
     <xacro:leg_assembly prefix="l" y_offset="-0.25"/>
     <xacro:leg_assembly prefix="r" y_offset="0.25"/>
 

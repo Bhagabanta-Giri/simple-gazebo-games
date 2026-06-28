@@ -15,6 +15,12 @@ def generate_launch_description():
 
     package_name = 'game_gz'
 
+    config_path = os.path.join(
+        get_package_share_directory(package_name),
+        'config',
+        'duniya_ek.config'
+    )
+
     thief_path = os.path.join(
         get_package_share_directory(package_name),
         'urdf_thief',
@@ -25,18 +31,6 @@ def generate_launch_description():
         get_package_share_directory(package_name),
         'urdf_police',
         'robot_vtwo.xacro' 
-    )
-    
-    rviz_config_thief = os.path.join(
-        get_package_share_directory(package_name),
-        'rviz',
-        'thief.rviz'
-    )
-
-    rviz_config_police = os.path.join(
-        get_package_share_directory(package_name),
-        'rviz',
-        'police.rviz'
     )
 
     thief_description = ParameterValue(
@@ -75,39 +69,20 @@ def generate_launch_description():
 
 
         Node(
-            package='joint_state_publisher_gui',
-            executable='joint_state_publisher_gui',
-            namespace='thief',
-        ),
-
-
-        Node(
-            package='joint_state_publisher_gui',
-            executable='joint_state_publisher_gui',
-            namespace='police',
-        ),
-
-
-        Node(
-            package='rviz2',
-            executable='rviz2',
-            arguments=['-d', rviz_config_thief],
-            output='screen'
-        ),
-
-
-        Node(
-            package='rviz2',
-            executable='rviz2',
-            arguments=['-d', rviz_config_police],
+            package='ros_gz_bridge',
+            executable='parameter_bridge',
+            arguments=[
+                '/thief/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist',
+                '/thief/camera/image@sensor_msgs/msg/Image@gz.msgs.Image',
+            ],
             output='screen'
         ),
 
 
         ExecuteProcess(
-            cmd=['gz', 'sim', '-r', world_path],
+            cmd=['gz', 'sim', '-r', world_path, '--gui-config', config_path],
             output='screen'
-        ),
+            ),
 
 
         TimerAction(
@@ -119,8 +94,9 @@ def generate_launch_description():
                         '-world', 'duniya_ek',
                         '-topic', '/thief/robot_description',
                         '-name', 'tuktuk',
-                        '-x', '10',
+                        '-y', '5',
                         '-z', '3',
+                        '-Y', '-1.57079632679'
                     ],
                     output='screen'
                 ),
@@ -130,8 +106,9 @@ def generate_launch_description():
                         '-world', 'duniya_ek',
                         '-topic', '/police/robot_description',
                         '-name', 'chitti',
-                        '-x', '-10',
+                        '-y', '-5',
                         '-z', '3',
+                        '-Y', '1.57079632679'
                     ],
                     output='screen'
                 )

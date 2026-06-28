@@ -31,8 +31,29 @@
       <right_joint>iwheelr_joint</right_joint>
       <wheel_separation>0.7</wheel_separation>
       <wheel_radius>0.04</wheel_radius>
-      <topic>cmd_vel</topic>
+      <topic>/thief/cmd_vel</topic>
     </plugin>
+  </gazebo>
+  <gazebo reference="thief_camera">
+    <sensor name="camera" type="camera">
+      <pose>0 0 0 0 0 0</pose>
+      <always_on>true</always_on>
+      <update_rate>30.0</update_rate>
+      <visualize>true</visualize>
+      <topic>/thief/camera/image</topic>
+      <camera>
+        <horizontal_fov>1.089</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.05</near>
+          <far>8.0</far>
+        </clip>
+      </camera>
+    </sensor>
   </gazebo>
   <link name="chassis">
     <inertial>
@@ -52,6 +73,52 @@
       </geometry>
     </collision>
   </link>
+  <link name="stand">
+    <inertial>
+      <mass value="0.001"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <cylinder length="0.5" radius="0.01"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.5" radius="0.01"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="stand_joint" type="fixed">
+    <parent link="chassis"/>
+    <child link="stand"/>
+    <origin rpy="0 0 0" xyz="0 0 0.28"/>
+  </joint>
+  <link name="thief_camera">
+    <inertial>
+      <mass value="0.001"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <sphere radius="0.05"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="0.06"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="cam_joint" type="fixed">
+    <parent link="stand"/>
+    <child link="thief_camera"/>
+    <origin rpy="0 0 0" xyz="0 0 0.25"/>
+  </joint>
   <link name="ir1">
     <inertial>
       <mass value="0.01"/>
@@ -529,15 +596,3 @@
     <origin rpy="0 0 0" xyz="0 0 0"/>
   </joint>
 </robot>
-<!-- I used xacro to make this bot coz its easy to modify this way.
-    Most of the dimensions and origin of links are in properties.xacro.
-    macros.xacro has all the macros used in main_assembly macro itself.
-    materials.xacro has the colors(materials).
-    gazebo.xacro has the diff drive plugin used in task 4b.
-    
-    I used chassis instead of base_link.
-    The original tuktuk is in MiniTask.
-    More logic is inside macros.xacro
-    
-    KDL might throw a warning coz kdl does not support root link with inertia,
-    but i did not create a dummy link coz without inertial and collision, chassis will be invisible in gazebo-->
