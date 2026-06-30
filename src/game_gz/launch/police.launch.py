@@ -73,8 +73,17 @@ def generate_launch_description():
             executable='parameter_bridge',
             arguments=[
                 '/police/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist',
+                '/thief/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist',
+                '/world/duniya_ek/model/chitti/link/base_link/sensor/contact_sensor/contact@ros_gz_interfaces/msg/Contacts@gz.msgs.Contacts',
                 '/police/camera/image@sensor_msgs/msg/Image@gz.msgs.Image',
             ],
+            output='screen'
+        ),
+
+
+        Node(
+            package='game_gz',
+            executable='thief_ai',
             output='screen'
         ),
 
